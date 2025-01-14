@@ -1,0 +1,44 @@
+{
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			"ExDrill"
+		]
+	},
+	"header": {
+		"name": "pack.name",
+		"description": "pack.description",
+		"min_engine_version": [
+			1,
+			21,
+			0
+		],
+		"uuid": "fbc35e26-3376-438a-94b7-29be54c98d2d",
+		"version": [
+			1,
+			0,
+			0
+		]
+	},
+	"modules": [
+		{
+			"type": "resources",
+			"uuid": "75e2f870-9aa2-469a-8d26-ea78cad431b7",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	],
+	"dependencies": [
+		{
+			"uuid": "b4505463-c8f4-411d-9ef1-7e6ff52500cb",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	]
+}

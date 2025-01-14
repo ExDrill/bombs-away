@@ -1,0 +1,51 @@
+{
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			"ExDrill"
+		]
+	},
+	"header": {
+		"name": "pack.name",
+		"description": "pack.description",
+		"min_engine_version": [
+			1,
+			21,
+			0
+		],
+		"uuid": "b4505463-c8f4-411d-9ef1-7e6ff52500cb",
+		"version": [
+			1,
+			0,
+			0
+		]
+	},
+	"modules": [
+		{
+			"type": "data",
+			"uuid": "78d5035d-173a-43dc-9a84-752d1392996e",
+			"version": [1, 0, 0]
+		},
+		{
+			"type": "script",
+			"entry": "scripts/main.js",
+			"language": "javascript",
+			"uuid": "090f9dda-9d3e-4d91-8df2-0dc07bab120d",
+			"version": [1, 0, 0]
+		}
+	],
+	"dependencies": [
+		{
+			"uuid": "fbc35e26-3376-438a-94b7-29be54c98d2d",
+			"version": [
+				1,
+				0,
+				0
+			]
+		},
+		{
+			"module_name": "@minecraft/server",
+			"version": "1.16.0"
+		}
+	]
+}
