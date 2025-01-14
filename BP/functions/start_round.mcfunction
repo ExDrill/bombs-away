@@ -1,0 +1,1 @@
+scriptevent bombs_away:start_round
