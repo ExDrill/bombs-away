@@ -1,12 +1,13 @@
 import { Player } from '@minecraft/server'
 import { DIMENSION, LOBBY_QUEUE_VOLUME, LOBBY_QUEUE_LOCATION } from '../constants'
+import State from './State'
 import ScreenDisplayUtils from '../util/ScreenDisplayUtils'
 
-export default class Lobby {
+export default class Lobby extends State {
     private countdownTicks: number = 0
     private countdownActive: boolean = false
     
-    public tick(): void {
+    public override tick(): void {
         const queuedPlayers = this.getQueuedPlayers()
 
         if (queuedPlayers.length < 2) {

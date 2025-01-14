@@ -1,23 +1,30 @@
 import { system } from '@minecraft/server'
-import { State } from '../types'
+import State from './State'
 import Lobby from './Lobby'
 
 export default class Game {
     private static INSTANCE: Game
 
-    private state: State = State.Lobby
-    private lobbyManager: Lobby = new Lobby()
+    // The game should always start in the lobby
+    private state: State = new Lobby()
+    private oldState: State
     
     public constructor() {
         system.runInterval(this.tick.bind(this), 1)
+        this.oldState = this.state
 
         Game.INSTANCE = this
     }
-
+    
+    // A basic state machine for handling each of the game's phases
     public tick(): void {
-        if (this.state == State.Lobby) {
-            this.lobbyManager.tick()
+        if (this.state != this.oldState) {
+            this.state.enter()
+            this.oldState.exit()
         }
+        this.state.tick()
+
+        this.oldState = this.state
     }
 
     public getState(): State {
@@ -26,10 +33,6 @@ export default class Game {
 
     public setState(state: State): void {
         this.state = state
-    }
-
-    public getLobbyManager(): Lobby {
-        return this.lobbyManager
     }
 
     public static getInstance(): Game {
