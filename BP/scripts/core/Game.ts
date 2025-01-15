@@ -1,6 +1,6 @@
 import { system } from '@minecraft/server'
-import State from './State'
-import Lobby from './Lobby'
+import State from './state/State'
+import Lobby from './state/Lobby'
 
 export default class Game {
     private static INSTANCE: Game

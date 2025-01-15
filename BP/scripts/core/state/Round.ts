@@ -1,17 +1,26 @@
 import { world, EntityDieAfterEvent, Player, Entity, Vector3, GameMode } from '@minecraft/server'
-import { DIMENSION, RED_TOTEM_SPAWN, BLUE_TOTEM_SPAWN } from '../constants';
-import PlayerUtils from '../util/PlayerUtils';
+import { DIMENSION, RED_TOTEM_SPAWN, BLUE_TOTEM_SPAWN } from '../../constants';
+import PlayerUtils from '../../util/PlayerUtils';
 import State from "./State";
 
 export default class Round extends State {
     private totems: Entity[] = []
+    
+    private playerDiedEvent: any
+    private totemDestroyedEvent: any
+
+    public constructor() {
+        super()
+        this.playerDiedEvent = this.playerDied.bind(this)
+        this.totemDestroyedEvent = this.totemDestroyed.bind(this)
+    }
 
     public override enter(): void {
         // Subscribe to the events we need.
-        world.afterEvents.entityDie.subscribe(this.playerDied.bind(this), {
+        world.afterEvents.entityDie.subscribe(this.playerDiedEvent, {
             entityTypes: ['minecraft:player']
         })
-        world.afterEvents.entityDie.subscribe(this.totemDestroyed.bind(this), {
+        world.afterEvents.entityDie.subscribe(this.totemDestroyedEvent, {
             entityTypes: ['bombs_away:totem']
         })
     
@@ -20,9 +29,9 @@ export default class Round extends State {
     }
 
     public override exit(): void {
-        // Destroy the events once the round is over.
-        world.afterEvents.entityDie.unsubscribe(this.playerDied.bind(this))
-        world.afterEvents.entityDie.unsubscribe(this.totemDestroyed.bind(this))
+        // Destroy the saved events once the round is over.
+        world.afterEvents.entityDie.unsubscribe(this.playerDiedEvent)
+        world.afterEvents.entityDie.unsubscribe(this.totemDestroyedEvent)
     }
     
     private playerDied(event: EntityDieAfterEvent): void {

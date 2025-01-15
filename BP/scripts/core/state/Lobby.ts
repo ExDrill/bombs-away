@@ -1,8 +1,8 @@
 import State from './State'
-import ScreenDisplayUtils from '../util/ScreenDisplayUtils'
-import PlayerUtils from '../util/PlayerUtils'
+import ScreenDisplayUtils from '../../util/ScreenDisplayUtils'
+import PlayerUtils from '../../util/PlayerUtils'
 import Round from './Round'
-import Game from './Game'
+import Game from '../Game'
 
 export default class Lobby extends State {
     private countdownTicks: number = 0

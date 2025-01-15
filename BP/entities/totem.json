@@ -18,8 +18,17 @@
                 "max": 200
             },
 			"minecraft:collision_box": {
-				"height": 1,
-				"width": 1
+				"height": 0.1,
+				"width": 0.1
+			},
+			"minecraft:custom_hit_test": {
+				"hitboxes": [
+					{
+						"pivot": [0, 0.5, 0],
+						"height": 1,
+						"width": 1
+					}
+				]
 			},
             "minecraft:damage_sensor": {
                 "triggers": [
