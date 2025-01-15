@@ -17,19 +17,43 @@
                 "value": 200,
                 "max": 200
             },
+			"minecraft:knockback_resistance": {
+                "value": 1
+            },
+			"minecraft:scale": {
+				"value": 2
+			},
+			// Makes the entity shadow essentially invisible
 			"minecraft:collision_box": {
-				"height": 0.1,
+				"height": 0.8,
 				"width": 0.1
 			},
 			"minecraft:custom_hit_test": {
 				"hitboxes": [
 					{
 						"pivot": [0, 0.5, 0],
-						"height": 1,
+						"height": 1.5,
 						"width": 1
 					}
 				]
 			},
+            "minecraft:physics": {
+                "has_collision": true,
+                "has_gravity": false
+            },
+			"minecraft:pushable": {
+				"is_pushable": false,
+				"is_pushable_by_piston": false
+			},
+			"minecraft:boss": {
+				"hud_range": 16,
+				"should_darken_sky": false
+			},
+			"minecraft:nameable": {
+				"always_show": false
+			},
+
+			// Immune to friendly fire and non-explosive damage
             "minecraft:damage_sensor": {
                 "triggers": [
 					{
@@ -85,16 +109,6 @@
                         "deals_damage": "no"
                     }
                 ]
-            },
-            "minecraft:knockback_resistance": {
-                "value": 1
-            },
-			"minecraft:scale": {
-				"value": 2
-			},
-            "minecraft:physics": {
-                "has_collision": true,
-                "has_gravity": false
             }
         }
     }

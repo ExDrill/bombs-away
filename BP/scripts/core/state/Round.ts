@@ -1,62 +1,118 @@
-import { world, EntityDieAfterEvent, Player, Entity, Vector3, GameMode } from '@minecraft/server'
-import { DIMENSION, RED_TOTEM_SPAWN, BLUE_TOTEM_SPAWN } from '../../constants';
+import { world, EntityDieAfterEvent, PlayerBreakBlockBeforeEvent, ExplosionBeforeEvent, Player, Entity, Vector3, GameMode } from '@minecraft/server'
+import { DIMENSION, TOTEM_INFOS, MAX_ROUND_TICKS, ROUND_TIME_NOTIFIERS } from '../../constants';
 import PlayerUtils from '../../util/PlayerUtils';
-import State from "./State";
+import ScreenDisplayUtils from '../../util/ScreenDisplayUtils'
+import Game from '../Game';
+import Lobby from './Lobby';
+import State from './State';
 
 export default class Round extends State {
-    private totems: Entity[] = []
-    
-    private playerDiedEvent: any
-    private totemDestroyedEvent: any
+    private roundTicks: number = MAX_ROUND_TICKS
 
-    public constructor() {
-        super()
-        this.playerDiedEvent = this.playerDied.bind(this)
-        this.totemDestroyedEvent = this.totemDestroyed.bind(this)
-    }
+    private totems: Entity[] = []
+
+    // Event Functions    
+    private readonly playerDieAfter: any = this.onPlayerDieAfter.bind(this)
+    private readonly totemDieAfter: any = this.onTotemDieAfter.bind(this)
+    private readonly playerBreakBlockBefore: any = this.onPlayerBreakBlockBefore.bind(this)
+    private readonly explosionBefore: any = this.onExplosionBefore.bind(this)
 
     public override enter(): void {
+        const participants = PlayerUtils.getParticipatingPlayers()
+
+        // Gamerules
+        world.gameRules.pvp = true
+
         // Subscribe to the events we need.
-        world.afterEvents.entityDie.subscribe(this.playerDiedEvent, {
-            entityTypes: ['minecraft:player']
+        world.afterEvents.entityDie.subscribe(this.playerDieAfter, {
+            entities: participants
         })
-        world.afterEvents.entityDie.subscribe(this.totemDestroyedEvent, {
+        world.afterEvents.entityDie.subscribe(this.totemDieAfter, {
             entityTypes: ['bombs_away:totem']
         })
-    
-        this.totems[0] = this.setupTotem(0, RED_TOTEM_SPAWN)
-        this.totems[1] = this.setupTotem(1, BLUE_TOTEM_SPAWN)
+        world.beforeEvents.playerBreakBlock.subscribe(this.playerBreakBlockBefore)
+        world.beforeEvents.explosion.subscribe(this.explosionBefore)
+
+        // Totem setup
+        for (let i = 0; i <= 1; i++) {
+            const totem = DIMENSION.spawnEntity('bombs_away:totem', TOTEM_INFOS[i].spawnPos)
+            totem.nameTag = TOTEM_INFOS[i].name
+            totem.setProperty('bombs_away:team', i)
+
+            this.totems[i] = totem
+        }
+
+        // Player setup
+        for (const participant of participants) {
+            participant.setGameMode(GameMode.survival)
+        }
+    }
+
+    public override tick(): void {
+        if (this.roundTicks > 0) {
+            this.roundTicks--
+        }
+        else {
+            ScreenDisplayUtils.setTitle("Draw!", PlayerUtils.getParticipatingPlayers())
+            Game.getInstance().setState(new Lobby())
+        }
+
+        if (ROUND_TIME_NOTIFIERS.has(this.roundTicks)) {
+            const notifier = ROUND_TIME_NOTIFIERS.get(this.roundTicks)
+
+            ScreenDisplayUtils.setTitle(notifier, PlayerUtils.getParticipatingPlayers())
+        }
     }
 
     public override exit(): void {
         // Destroy the saved events once the round is over.
-        world.afterEvents.entityDie.unsubscribe(this.playerDiedEvent)
-        world.afterEvents.entityDie.unsubscribe(this.totemDestroyedEvent)
+        world.afterEvents.entityDie.unsubscribe(this.playerDieAfter)
+        world.afterEvents.entityDie.unsubscribe(this.totemDieAfter)
+        world.beforeEvents.playerBreakBlock.unsubscribe(this.playerBreakBlockBefore)
+        world.beforeEvents.explosion.unsubscribe(this.explosionBefore)
+
+        // Clean up totems
+        for (const totem of this.totems) {
+            totem.remove()
+        }
+        this.totems = []
+
+        // Clean up players
+        for (const player of PlayerUtils.getParticipatingPlayers()) {
+            player.teleport({ x: 0, y: 5, z: 0})
+            player.setGameMode(GameMode.adventure)
+        }
     }
     
-    private playerDied(event: EntityDieAfterEvent): void {
+    private onPlayerDieAfter(event: EntityDieAfterEvent): void {
         const player = event.deadEntity as Player
-
-        // Prevent spectators/non-participants from running this.
-        if (!PlayerUtils.isParticipating(player)) return
 
         player.setGameMode(GameMode.spectator)
 
         // TODO: add respawn countdown
     }
 
-    private totemDestroyed(event: EntityDieAfterEvent): void {
+    private onTotemDieAfter(event: EntityDieAfterEvent): void {
         const entity = event.deadEntity
         const team = entity.getProperty('bombs_away:team') as number
 
         if (this.totems[team]) {
-            this.totems[team] = undefined
+            this.totems.splice(team, 1)
         }
     }
 
-    private setupTotem(team: number, pos: Vector3): Entity {
-        const totem = DIMENSION.spawnEntity('bombs_away:totem', pos)
-        totem.setProperty('bombs_away:team', team)
-        return totem
+    private onPlayerBreakBlockBefore(event: PlayerBreakBlockBeforeEvent) {
+        const block = event.block
+
+        if (!block.typeId.includes('wool')) {
+            event.cancel = true
+        }
+    }
+
+    private onExplosionBefore(event: ExplosionBeforeEvent) {
+        const impactedBlocks = event.getImpactedBlocks()
+        const woolBlocks = impactedBlocks.filter(block => block.typeId.includes('wool'))
+        
+        event.setImpactedBlocks(woolBlocks)
     }
 }

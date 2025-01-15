@@ -6,6 +6,8 @@ import './debug'
 
 world.afterEvents.worldInitialize.subscribe(event => {
     new Game()
+
+    world.gameRules.doImmediateRespawn = true
 })
 
 
