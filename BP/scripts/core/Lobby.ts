@@ -1,14 +1,14 @@
 import { Player } from '@minecraft/server'
-import { DIMENSION, LOBBY_QUEUE_VOLUME, LOBBY_QUEUE_LOCATION } from '../constants'
 import State from './State'
 import ScreenDisplayUtils from '../util/ScreenDisplayUtils'
+import PlayerUtils from '../util/PlayerUtils'
 
 export default class Lobby extends State {
     private countdownTicks: number = 0
     private countdownActive: boolean = false
     
     public override tick(): void {
-        const queuedPlayers = this.getQueuedPlayers()
+        const queuedPlayers = PlayerUtils.getQueuedPlayers()
 
         if (queuedPlayers.length < 2) {
             ScreenDisplayUtils.setActionBar('2 players are required to start a round!')
@@ -35,12 +35,5 @@ export default class Lobby extends State {
             // TODO: start
             this.countdownActive = false
         }
-    }
-
-    public getQueuedPlayers(): Player[] {
-        return DIMENSION.getPlayers({
-            location: LOBBY_QUEUE_LOCATION,
-            volume: LOBBY_QUEUE_VOLUME
-        })
     }
 }
