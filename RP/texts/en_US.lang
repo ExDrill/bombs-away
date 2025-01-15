@@ -1,2 +1,10 @@
 pack.name=Bombs Away! RP
 pack.description=Contains explosions.
+
+
+## Entities
+entity.bombs_away:totem.name=Totem
+
+
+## Items
+item.spawn_egg.entity.bombs_away:totem.name=Spawn Totem

@@ -14,9 +14,18 @@ export default class PlayerUtils {
     }
 
     /**
+     * Returns the list of players that are participating in the ongoing round.
+     */
+    public static getParticipatingPlayers(): Player[] {
+        return world.getPlayers({
+            tags: ['in_round']
+        })
+    }
+
+    /**
      * Checks if a player is/was a particpant in a round.
      */
-    public static isInRound(player: Player): boolean {
+    public static isParticipating(player: Player): boolean {
         return player.hasTag('in_round')
     }
 }

@@ -1,7 +1,8 @@
-import { Player } from '@minecraft/server'
 import State from './State'
 import ScreenDisplayUtils from '../util/ScreenDisplayUtils'
 import PlayerUtils from '../util/PlayerUtils'
+import Round from './Round'
+import Game from './Game'
 
 export default class Lobby extends State {
     private countdownTicks: number = 0
@@ -32,7 +33,7 @@ export default class Lobby extends State {
             this.countdownTicks -= 1
         }
         if (this.countdownTicks == 0) {
-            // TODO: start
+            Game.getInstance().setState(new Round())
             this.countdownActive = false
         }
     }

@@ -1,0 +1,92 @@
+{
+    "format_version": "1.21.50",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "bombs_away:totem",
+            "is_summonable": true,
+            "properties": {
+                "bombs_away:team": {
+                    "type": "int",
+					"default": 0,
+					"range": [0, 1]
+                }
+            }
+        },
+        "components": {
+            "minecraft:health": {
+                "value": 200,
+                "max": 200
+            },
+			"minecraft:collision_box": {
+				"height": 1,
+				"width": 1
+			},
+            "minecraft:damage_sensor": {
+                "triggers": [
+					{
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "int_property",
+										"domain": "bombs_away:team",
+										"value": 0
+									},
+									{
+										"test": "int_property",
+										"domain": "bombs_away:team",
+										"subject": "other",
+										"value": 0
+									}
+								]
+							}
+						},
+						"deals_damage": "no"
+					},
+					{
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "int_property",
+										"domain": "bombs_away:team",
+										"value": 1
+									},
+									{
+										"test": "int_property",
+										"domain": "bombs_away:team",
+										"subject": "other",
+										"value": 1
+									}
+								]
+							}
+						},
+						"deals_damage": "no"
+					},
+                    {
+                        "cause": "block_explosion",
+                        "deals_damage": "yes"
+                    },
+                    {
+                        "cause": "entity_explosion",
+                        "deals_damage": "yes"
+                    },
+                    {
+                        "cause": "all",
+                        "deals_damage": "no"
+                    }
+                ]
+            },
+            "minecraft:knockback_resistance": {
+                "value": 1
+            },
+			"minecraft:scale": {
+				"value": 2
+			},
+            "minecraft:physics": {
+                "has_collision": true,
+                "has_gravity": false
+            }
+        }
+    }
+}
