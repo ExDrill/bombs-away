@@ -31,9 +31,6 @@
                 "probability": 1,
                 "tame_items": "minecraft:barrier"
             },
-            "minecraft:knockback_resistance": {
-                "value": 1
-            },
             "minecraft:collision_box": {
                 "height": 0.75,
                 "width": 0.75

@@ -20,7 +20,7 @@
 			"minecraft:projectile": {
 				"projectile_entity": "bombs_away:dummy"
 			},
-			"minecraft:custom_components": ["bombs_away:bomb"]
+			"minecraft:custom_components": ["bombs_away:throwable.bomb"]
 		}
 	}
 }

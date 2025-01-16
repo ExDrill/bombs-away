@@ -1,9 +1,14 @@
 import { EntityTameableComponent, ItemCustomComponent, ItemUseAfterEvent, Player } from '@minecraft/server';
 import Vector3d from '../util/Vector3d';
 
-export default class BombComponent implements ItemCustomComponent {
+export default class ThrowableComponent implements ItemCustomComponent {
+    private readonly entityId: string
+    private readonly force: Vector3d
 
-    public constructor() {
+    public constructor(entityId: string, force: Vector3d) {
+        this.entityId = entityId
+        this.force = force
+
         this.onUse = this.onUse.bind(this)
     }
 
@@ -17,11 +22,11 @@ export default class BombComponent implements ItemCustomComponent {
         const dimension = user.dimension
 
         const viewDir = Vector3d.convertFrom(user.getViewDirection())
-        const velocity = viewDir.multiply(new Vector3d(1, 0.5, 1))
+        const velocity = viewDir.multiply(this.force)
 
         const spawnPos = viewDir.multiply(new Vector3d(0.5, 0.5, 0.5)).add(user.getHeadLocation())
         
-        const bomb = dimension.spawnEntity('bombs_away:bomb', spawnPos)
+        const bomb = dimension.spawnEntity(this.entityId, spawnPos)
 
         bomb.applyImpulse(velocity)
         
