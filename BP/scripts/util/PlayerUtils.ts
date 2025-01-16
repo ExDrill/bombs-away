@@ -23,6 +23,21 @@ export default class PlayerUtils {
     }
 
     /**
+     * Sets a player's participant status.
+     * 
+     * @param player The player to target.
+     * @param value The updated value.
+     */
+    public static setAsParticipant(player: Player, value: boolean): void {
+        if (value) {
+            player.addTag('in_round')
+        }
+        else {
+            player.removeTag('in_round')
+        }
+    }
+
+    /**
      * Checks if a player is/was a particpant in a round.
      */
     public static isParticipating(player: Player): boolean {

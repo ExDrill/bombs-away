@@ -42,4 +42,11 @@ export default class Lobby extends State {
             this.queuing = false
         }
     }
+
+    public override exit(): void {
+        // Players in queue will now be participants
+        for (const player of PlayerUtils.getQueuedPlayers()) {
+            PlayerUtils.setAsParticipant(player, true)
+        }
+    }
 }
