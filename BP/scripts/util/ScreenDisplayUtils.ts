@@ -1,4 +1,4 @@
-import { world, Player, RawMessage } from '@minecraft/server'
+import { world, Player } from '@minecraft/server'
 
 export default class ScreenDisplayUtils {
 
@@ -8,7 +8,7 @@ export default class ScreenDisplayUtils {
      * @param message The message to display.
      * @param targets The list of players to target.
      */
-    public static setActionBar(message: string | RawMessage, targets: Player[] = world.getAllPlayers()) {
+    public static setActionBar(message: string, targets: Player[] = world.getAllPlayers()) {
         for (const player of targets) {
             player.onScreenDisplay.setActionBar(message)
         }
@@ -17,12 +17,27 @@ export default class ScreenDisplayUtils {
     /**
      * Displays a title message to a group of players.
      * 
-     * @param message The message to display.
+     * @param title The title to display.
      * @param targets The list of players to target.
      */
-    public static setTitle(message: string | RawMessage, targets: Player[] = world.getAllPlayers()) {
+    public static setTitle(title: string, targets: Player[] = world.getAllPlayers()) {
         for (const player of targets) {
-            player.onScreenDisplay.setTitle(message)
+            player.onScreenDisplay.updateSubtitle('') // clear the subtitle.
+            player.onScreenDisplay.setTitle(title)
+        }
+    }
+
+    /**
+     * Displays a title message with a subtitle to a group of players.
+     * 
+     * @param title The title to display.
+     * @param subtitle The subtitle to display.
+     * @param targets The list of players to target.
+     */
+    public static setTitleWithSubtitle(title: string, subtitle: string, targets: Player[] = world.getAllPlayers()) {
+        for (const player of targets) {
+            player.onScreenDisplay.updateSubtitle(subtitle)
+            player.onScreenDisplay.setTitle(title)
         }
     }
 }

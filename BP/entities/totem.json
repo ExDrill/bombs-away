@@ -47,6 +47,7 @@
 			},
 			"minecraft:boss": {
 				"hud_range": 16,
+				"name": "Totem",
 				"should_darken_sky": false
 			},
 			"minecraft:nameable": {

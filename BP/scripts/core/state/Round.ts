@@ -1,23 +1,23 @@
-import { world, EntityDieAfterEvent, PlayerBreakBlockBeforeEvent, ExplosionBeforeEvent, Player, Entity, Vector3, GameMode } from '@minecraft/server'
+import { world, EntityDieAfterEvent, PlayerBreakBlockBeforeEvent, ExplosionBeforeEvent, Player, Entity, GameMode } from '@minecraft/server'
 import { DIMENSION, TOTEM_INFOS, MAX_ROUND_TICKS, ROUND_TIME_NOTIFIERS } from '../../constants';
+import { StateType } from '../../types';
 import PlayerUtils from '../../util/PlayerUtils';
 import ScreenDisplayUtils from '../../util/ScreenDisplayUtils'
-import Game from '../Game';
-import Lobby from './Lobby';
+import GameManager from '../GameManager';
 import State from './State';
 
 export default class Round extends State {
-    private roundTicks: number = MAX_ROUND_TICKS
+    private roundTicks: number
 
-    private totems: Entity[] = []
-
-    // Event Functions    
+    // Event Functions  
     private readonly playerDieAfter: any = this.onPlayerDieAfter.bind(this)
     private readonly totemDieAfter: any = this.onTotemDieAfter.bind(this)
     private readonly playerBreakBlockBefore: any = this.onPlayerBreakBlockBefore.bind(this)
     private readonly explosionBefore: any = this.onExplosionBefore.bind(this)
 
     public override enter(): void {
+        this.roundTicks = MAX_ROUND_TICKS
+
         const participants = PlayerUtils.getParticipatingPlayers()
 
         // Gamerules
@@ -38,8 +38,6 @@ export default class Round extends State {
             const totem = DIMENSION.spawnEntity('bombs_away:totem', TOTEM_INFOS[i].spawnPos)
             totem.nameTag = TOTEM_INFOS[i].name
             totem.setProperty('bombs_away:team', i)
-
-            this.totems[i] = totem
         }
 
         // Player setup
@@ -53,8 +51,8 @@ export default class Round extends State {
             this.roundTicks--
         }
         else {
-            ScreenDisplayUtils.setTitle("Draw!", PlayerUtils.getParticipatingPlayers())
-            Game.getInstance().setState(new Lobby())
+            ScreenDisplayUtils.setTitleWithSubtitle("Round End!", 'Draw!', PlayerUtils.getParticipatingPlayers())
+            GameManager.setState(StateType.end)
         }
 
         if (ROUND_TIME_NOTIFIERS.has(this.roundTicks)) {
@@ -71,16 +69,9 @@ export default class Round extends State {
         world.beforeEvents.playerBreakBlock.unsubscribe(this.playerBreakBlockBefore)
         world.beforeEvents.explosion.unsubscribe(this.explosionBefore)
 
-        // Clean up totems
-        for (const totem of this.totems) {
+        // Clean up any remaining totems
+        for (const totem of DIMENSION.getEntities({ type: 'bombs_away:totem'})) {
             totem.remove()
-        }
-        this.totems = []
-
-        // Clean up players
-        for (const player of PlayerUtils.getParticipatingPlayers()) {
-            player.teleport({ x: 0, y: 5, z: 0})
-            player.setGameMode(GameMode.adventure)
         }
     }
     
@@ -96,14 +87,14 @@ export default class Round extends State {
         const entity = event.deadEntity
         const team = entity.getProperty('bombs_away:team') as number
 
-        if (this.totems[team]) {
-            this.totems.splice(team, 1)
-        }
+        ScreenDisplayUtils.setTitleWithSubtitle('Round End!', TOTEM_INFOS[team].deathMessage, PlayerUtils.getParticipatingPlayers())
+        GameManager.setState(StateType.end)
     }
 
     private onPlayerBreakBlockBefore(event: PlayerBreakBlockBeforeEvent) {
         const block = event.block
 
+        // Only wool can be broken
         if (!block.typeId.includes('wool')) {
             event.cancel = true
         }
@@ -113,6 +104,11 @@ export default class Round extends State {
         const impactedBlocks = event.getImpactedBlocks()
         const woolBlocks = impactedBlocks.filter(block => block.typeId.includes('wool'))
         
+        // Only wool can be broken
         event.setImpactedBlocks(woolBlocks)
+    }
+
+    public getType(): StateType {
+        return StateType.round
     }
 }

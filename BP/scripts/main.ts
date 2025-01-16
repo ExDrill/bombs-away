@@ -1,14 +1,13 @@
 import { world } from '@minecraft/server'
 
-import Game from './core/Game'
-import './constants'
-import './debug'
+import GameManager from './core/GameManager'
 import ThrowableComponent from './component/ThrowableComponent'
 import Vector3d from './util/Vector3d'
 
-world.afterEvents.worldInitialize.subscribe(event => {
-    new Game()
+import './debug'
 
+world.afterEvents.worldInitialize.subscribe(event => {
+    GameManager.initialize()
     world.gameRules.doImmediateRespawn = true
 })
 
