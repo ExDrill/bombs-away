@@ -7,9 +7,6 @@ import './debug'
 
 world.afterEvents.worldInitialize.subscribe(event => {
     new Game()
-    
-    // Initialize Entities
-    Bomb.subscribeToEvents()
 
     world.gameRules.doImmediateRespawn = true
 })
