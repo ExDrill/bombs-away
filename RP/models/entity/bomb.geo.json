@@ -1,0 +1,37 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.bomb",
+				"texture_width": 32,
+				"texture_height": 32,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "bomb",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-4, 0, -4], "size": [8, 8, 8], "uv": [0, 0]},
+						{"origin": [-2, 8, -2], "size": [4, 1, 4], "uv": [0, 16]}
+					]
+				},
+				{
+					"name": "rope",
+					"parent": "bomb",
+					"pivot": [0, 9, 0],
+					"cubes": [
+						{"origin": [-0.5, 9, 0], "size": [1, 6, 0], "pivot": [0, 9, 0], "rotation": [0, -45, 0], "uv": [0, 0]},
+						{"origin": [0, 9, -0.5], "size": [0, 6, 1], "pivot": [0, 9, 0], "rotation": [0, -45, 0], "uv": [0, -1]}
+					],
+					"locators": {
+						"flame": [0, 16, 0]
+					}
+				}
+			]
+		}
+	]
+}

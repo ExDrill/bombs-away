@@ -1,0 +1,33 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "bombs_away:bomb",
+			"materials": {
+				"default": "entity_alphatest"
+			},
+			"textures": {
+				"default": "textures/entity/bomb"
+			},
+			"geometry": {
+				"default": "geometry.bomb"
+			},
+			"animations": {
+				"ignite": "animation.bomb.ignite"
+			},
+			"particle_effects": {
+				"fire_sparks": "bombs_away:fire_sparks"
+			},
+			"scripts": {
+				"animate": [
+					{
+						"ignite": "query.property('bombs_away:ignited') == true"
+					}
+				]
+			},
+			"render_controllers": [
+				"controller.render.default"
+			]
+		}
+	}
+}

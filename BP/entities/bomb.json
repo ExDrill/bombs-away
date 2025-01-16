@@ -1,0 +1,80 @@
+{
+    "format_version": "1.21.50",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "bombs_away:bomb",
+            "is_summonable": true,
+            "properties": {
+                "bombs_away:ignited": {
+                    "type": "bool",
+                    "client_sync": true,
+                    "default": false
+                }
+            },
+            "runtime_identifier": "minecraft:snowball"
+        },
+        "component_groups": {
+            "bombs_away:ignited": {
+                "minecraft:explode": {
+                    "fuse_length": 1.9,
+                    "fuse_lit": true,
+                    "damage_scaling": 1.5,
+                    "power": 2
+                }
+            }
+        },
+        "components": {
+            "minecraft:health": {
+                "value": 1,
+                "max": 1
+            },
+            "minecraft:knockback_resistance": {
+                "value": 1
+            },
+            "minecraft:collision_box": {
+                "height": 0.5,
+                "width": 0.5
+            },
+            "minecraft:projectile": {
+                "gravity": 0.05,
+                "power": 0.5,
+                "stop_on_hurt": false,
+                "destroy_on_hurt": false,
+                "on_hit": {
+                    "stick_in_ground": {}
+                },
+                "offset": [0, 0, 0.5]
+            },
+            "minecraft:damage_sensor": {
+                "triggers": [
+                    {
+                        "cause": "all",
+                        "deals_damage": "no"
+                    }
+                ]
+            },
+            "minecraft:timer": {
+                "looping": false,
+                "time": 1,
+                "time_down_event": {
+                    "event": "bombs_away:ignite",
+                    "target": "self"
+                }
+            },
+            "minecraft:physics": {},
+            "minecraft:body_rotation_blocked": {}
+        },
+        "events": {
+            "bombs_away:ignite": {
+                "set_property": {
+                    "bombs_away:ignited": true
+                },
+                "add": {
+                    "component_groups": [
+                        "bombs_away:ignited"
+                    ]
+                }
+            }
+        }
+    }
+}
