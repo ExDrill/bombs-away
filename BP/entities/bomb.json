@@ -10,8 +10,7 @@
                     "client_sync": true,
                     "default": false
                 }
-            },
-            "runtime_identifier": "minecraft:snowball"
+            }
         },
         "component_groups": {
             "bombs_away:ignited": {
@@ -28,22 +27,16 @@
                 "value": 1,
                 "max": 1
             },
+            "minecraft:tameable": {
+                "probability": 1,
+                "tame_items": "minecraft:barrier"
+            },
             "minecraft:knockback_resistance": {
                 "value": 1
             },
             "minecraft:collision_box": {
-                "height": 0.5,
-                "width": 0.5
-            },
-            "minecraft:projectile": {
-                "gravity": 0.05,
-                "power": 0.5,
-                "stop_on_hurt": false,
-                "destroy_on_hurt": false,
-                "on_hit": {
-                    "stick_in_ground": {}
-                },
-                "offset": [0, 0, 0.5]
+                "height": 0.75,
+                "width": 0.75
             },
             "minecraft:damage_sensor": {
                 "triggers": [
@@ -70,9 +63,7 @@
                     "bombs_away:ignited": true
                 },
                 "add": {
-                    "component_groups": [
-                        "bombs_away:ignited"
-                    ]
+                    "component_groups": ["bombs_away:ignited"]
                 }
             }
         }

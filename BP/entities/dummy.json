@@ -1,0 +1,22 @@
+// This dummy entity is used to handle projectile throwing, allowing for more immersiveness
+
+{
+    "format_version": "1.21.50",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "bombs_away:dummy"
+        },
+        "component_groups": {
+            "bombs_away:despawn": {
+                "minecraft:instant_despawn": {}
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "add": {
+                    "component_groups": ["bombs_away:despawn"]
+                }
+            }
+        }
+    }
+}
