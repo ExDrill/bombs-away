@@ -9,7 +9,7 @@ import State from './State';
 export default class Round extends State {
     private roundTicks: number
 
-    // Event Functions  
+    // Event Functions
     private readonly playerDieAfter: any = this.onPlayerDieAfter.bind(this)
     private readonly totemDieAfter: any = this.onTotemDieAfter.bind(this)
     private readonly playerBreakBlockBefore: any = this.onPlayerBreakBlockBefore.bind(this)
@@ -44,6 +44,9 @@ export default class Round extends State {
         for (const participant of participants) {
             participant.setGameMode(GameMode.survival)
         }
+
+        // The round has begun. :)
+        ScreenDisplayUtils.setTitle('Round Start!', participants)
     }
 
     public override tick(): void {

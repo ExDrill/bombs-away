@@ -19,7 +19,7 @@ export default class Lobby extends State {
     public override tick(): void {
         const queuedPlayers = PlayerUtils.getQueuedPlayers()
 
-        if (queuedPlayers.length < 1) {
+        if (queuedPlayers.length < 2) {
             ScreenDisplayUtils.setActionBar('2 players are required to start a round!')
             
             // Cancel the queue
@@ -50,9 +50,7 @@ export default class Lobby extends State {
     public override exit(): void {
         const queuedPlayers = PlayerUtils.getQueuedPlayers()
         this.queuing = false
-
-        ScreenDisplayUtils.setTitle('Round Start!', queuedPlayers)
-
+        
         // Players in queue will now be participants
         for (const player of queuedPlayers) {
             PlayerUtils.setAsParticipant(player, true)

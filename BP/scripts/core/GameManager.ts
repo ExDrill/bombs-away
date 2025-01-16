@@ -15,6 +15,7 @@ export default class GameManager {
         system.runInterval(this.tick.bind(this), 1)
     }
     
+    // A basic state machine for handling game phases
     public static tick(): void {
         if (this.oldState != this.state) {
             this.oldState.exit()
