@@ -41,7 +41,7 @@ export const STATE_BY_TYPE: Map<string, State> = new Map<string, State>([
     [StateType.end, new End()]
 ])
 
-export const END_TICKS: number = 200 // 10 seconds
+export const END_TICKS: number = 100 // 5 seconds
 export const MAX_ROUND_TICKS: number = 24000 // 20 minutes
 export const RESPAWN_TIME_TICKS: number = 100 // 5 seconds 
 

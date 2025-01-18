@@ -1,4 +1,4 @@
-import { world, EntityDieAfterEvent, PlayerBreakBlockBeforeEvent, ExplosionBeforeEvent, Player, Entity, GameMode } from '@minecraft/server'
+import { world, EntityDieAfterEvent, Player } from '@minecraft/server'
 import { DIMENSION, TOTEM_INFOS, MAX_ROUND_TICKS, ROUND_TIME_NOTIFIERS } from '../../constants';
 import { StateType } from '../../types';
 import PlayerUtils from '../../util/PlayerUtils';
@@ -72,7 +72,7 @@ export default class Round extends State {
     }
     
     private onPlayerDieAfter(event: EntityDieAfterEvent): void {
-        PlayerManager.queueRespawn(event.deadEntity as Player)
+        PlayerManager.onDie(event.deadEntity as Player)
     }
 
     private onTotemDieAfter(event: EntityDieAfterEvent): void {

@@ -1,17 +1,18 @@
 import { world } from '@minecraft/server'
 
 import GameManager from './core/GameManager'
+import GlobalEvents from './core/GlobalEvents'
 import ThrowableComponent from './component/ThrowableComponent'
 import Vector3d from './util/Vector3d'
 
 import './debug'
-import GlobalEvents from './core/GlobalEvents'
 
 world.afterEvents.worldInitialize.subscribe(() => {
     GameManager.initialize()
     GlobalEvents.initialize()
     
     world.gameRules.doImmediateRespawn = true
+    world.gameRules.doTileDrops = false
 })
 
 world.beforeEvents.worldInitialize.subscribe(event => {

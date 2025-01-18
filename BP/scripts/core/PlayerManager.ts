@@ -16,20 +16,37 @@ export default class PlayerManager {
 
     public static onSpawn(player: Player) {
         const team = player.getProperty('bombs_away:team')
+        const spawnpoint = TEAM_SPAWNPOINTS[team as number]
         
         player.setGameMode(GameMode.survival)
-        player.teleport(TEAM_SPAWNPOINTS[team as number])
+        player.teleport(spawnpoint)
+
+        player.setSpawnPoint({
+            x: spawnpoint.x,
+            y: spawnpoint.y,
+            z: spawnpoint.z,
+            dimension: DIMENSION
+        })
 
         this.equipArmor(player)
+
+        
     }
 
     public static onDie(player: Player): void {
+        PlayerUtils.clearInventory(player)
         player.setGameMode(GameMode.spectator)
 
-        PlayerUtils.clearInventory(player)
         ScreenDisplayUtils.setActionBar('Respawning soon...', [player])
 
-        system.runTimeout(() => this.onSpawn(player), RESPAWN_TIME_TICKS)
+        // Somewhat jank respawn countdown, but it does its job.
+        for (let i = Math.floor(RESPAWN_TIME_TICKS / 20); i > 0; i--) {
+            system.runTimeout(() => ScreenDisplayUtils.setTitle(`Respawning in ${i}`), RESPAWN_TIME_TICKS - (i * 20))
+        }
+        system.runTimeout(() => {
+            this.onSpawn(player)
+            ScreenDisplayUtils.setTitle('') // Clear the title
+        }, RESPAWN_TIME_TICKS)
     }
 
     private static assignTeams(players: Player[]): void {
