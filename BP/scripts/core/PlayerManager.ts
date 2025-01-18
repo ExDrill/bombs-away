@@ -5,22 +5,28 @@ import ScreenDisplayUtils from '../util/ScreenDisplayUtils'
 import PlayerUtils from '../util/PlayerUtils'
 
 export default class PlayerManager {
+    /**
+     * A table linking player IDs to their respawn time
+     */
+    private static playerToRespawnTicks: Map<string, number> = new Map<string, number>()
 
     public static setup(participants: Player[]): void {
         this.assignTeams(participants)
 
         for (const player of participants) {
-            this.onSpawn(player)
+            this.spawn(player)
+
+            system.runInterval(() => this.tick(player), 1)
         }
     }
 
-    public static onSpawn(player: Player) {
+    public static spawn(player: Player) {
         const team = player.getProperty('bombs_away:team')
         const spawnpoint = TEAM_SPAWNPOINTS[team as number]
         
-        player.setGameMode(GameMode.survival)
         player.teleport(spawnpoint)
-
+        player.setGameMode(GameMode.survival)
+        
         player.setSpawnPoint({
             x: spawnpoint.x,
             y: spawnpoint.y,
@@ -29,24 +35,41 @@ export default class PlayerManager {
         })
 
         this.equipArmor(player)
-
-        
     }
 
-    public static onDie(player: Player): void {
-        PlayerUtils.clearInventory(player)
+    public static respawn(player: Player, gameMode: GameMode): void {
+        const spawnpoint = TEAM_SPAWNPOINTS[player.getProperty('bombs_away:team') as number]
+        player.teleport(spawnpoint)
+        player.setGameMode(gameMode)
+
+        PlayerUtils.setAlive(player, true)
+
+        this.playerToRespawnTicks.delete(player.id)
+    }
+
+    public static die(player: Player): void {
+        PlayerUtils.clearInventory(player, false)
         player.setGameMode(GameMode.spectator)
 
-        ScreenDisplayUtils.setActionBar('Respawning soon...', [player])
+        PlayerUtils.setAlive(player, false)
 
-        // Somewhat jank respawn countdown, but it does its job.
-        for (let i = Math.floor(RESPAWN_TIME_TICKS / 20); i > 0; i--) {
-            system.runTimeout(() => ScreenDisplayUtils.setTitle(`Respawning in ${i}`), RESPAWN_TIME_TICKS - (i * 20))
+        this.playerToRespawnTicks.set(player.id, RESPAWN_TIME_TICKS)
+    }
+
+    private static tick(player: Player) {
+        // Handles respawning
+        if (this.playerToRespawnTicks.has(player.id)) {
+            const respawnTicks = this.playerToRespawnTicks.get(player.id)
+
+            if (respawnTicks > 0) {
+                if (respawnTicks % 20 == 0) {
+                    ScreenDisplayUtils.setAdvancedTitle(`Respawning in ${respawnTicks / 20}`, { fadeInDuration: 0, stayDuration: 20, fadeOutDuration: 0 }, [player])
+                }
+                this.playerToRespawnTicks.set(player.id, respawnTicks - 1)
+                return
+            }
+            this.respawn(player, GameMode.survival)
         }
-        system.runTimeout(() => {
-            this.onSpawn(player)
-            ScreenDisplayUtils.setTitle('') // Clear the title
-        }, RESPAWN_TIME_TICKS)
     }
 
     private static assignTeams(players: Player[]): void {

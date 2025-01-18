@@ -1,9 +1,9 @@
 import { Vector3, Dimension, world } from '@minecraft/server'
-import End from './core/state/End'
-import Lobby from './core/state/Lobby'
-import Round from './core/state/Round'
-import State from './core/state/State'
 import { StateType, TotemInfo } from './types'
+import End from './state/End'
+import Lobby from './state/Lobby'
+import Round from './state/Round'
+import State from './state/State'
 
 export const DIMENSION: Dimension = world.getDimension('overworld')
 

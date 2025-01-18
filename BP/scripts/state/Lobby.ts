@@ -1,9 +1,9 @@
 import { world } from '@minecraft/server'
 import State from './State'
-import ScreenDisplayUtils from '../../util/ScreenDisplayUtils'
-import PlayerUtils from '../../util/PlayerUtils'
-import GameManager from '../GameManager'
-import { StateType } from '../../types'
+import ScreenDisplayUtils from '../util/ScreenDisplayUtils'
+import PlayerUtils from '../util/PlayerUtils'
+import GameManager from '../core/GameManager'
+import { StateType } from '../types'
 
 export default class Lobby extends State {
     private queueTicks: number

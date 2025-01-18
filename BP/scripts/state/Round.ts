@@ -1,10 +1,10 @@
 import { world, EntityDieAfterEvent, Player } from '@minecraft/server'
-import { DIMENSION, TOTEM_INFOS, MAX_ROUND_TICKS, ROUND_TIME_NOTIFIERS } from '../../constants';
-import { StateType } from '../../types';
-import PlayerUtils from '../../util/PlayerUtils';
-import ScreenDisplayUtils from '../../util/ScreenDisplayUtils'
-import GameManager from '../GameManager';
-import PlayerManager from '../PlayerManager';
+import { DIMENSION, TOTEM_INFOS, MAX_ROUND_TICKS, ROUND_TIME_NOTIFIERS } from '../constants';
+import { StateType } from '../types';
+import PlayerUtils from '../util/PlayerUtils';
+import ScreenDisplayUtils from '../util/ScreenDisplayUtils'
+import GameManager from '../core/GameManager';
+import PlayerManager from '../core/PlayerManager';
 import State from './State';
 
 export default class Round extends State {
@@ -55,8 +55,7 @@ export default class Round extends State {
 
         if (ROUND_TIME_NOTIFIERS.has(this.roundTicks)) {
             const notifier = ROUND_TIME_NOTIFIERS.get(this.roundTicks)
-
-            ScreenDisplayUtils.setTitle(notifier, PlayerUtils.getParticipants())
+            ScreenDisplayUtils.setTitle(notifier, PlayerUtils.getAliveParticipants())
         }
     }
 
@@ -72,7 +71,7 @@ export default class Round extends State {
     }
     
     private onPlayerDieAfter(event: EntityDieAfterEvent): void {
-        PlayerManager.onDie(event.deadEntity as Player)
+        PlayerManager.die(event.deadEntity as Player)
     }
 
     private onTotemDieAfter(event: EntityDieAfterEvent): void {

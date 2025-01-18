@@ -14,7 +14,7 @@ export default class PlayerUtils {
     }
 
     /**
-     * Returns the list of players that are participating in the ongoing round.
+     * Returns the list of players that are in the round
      */
     public static getParticipants(): Player[] {
         return world.getPlayers({
@@ -23,10 +23,20 @@ export default class PlayerUtils {
     }
 
     /**
-     * Sets a player's participant status.
+     * Returns the list of players that are in the round and are currently alive.
+     */
+    public static getAliveParticipants(): Player[] {
+        return world.getPlayers({
+            tags: ['in_round'],
+            excludeTags: ['dead']
+        })
+    }
+
+    /**
+     * Updates whether or not a player is playing in the ongoing round.
      * 
-     * @param player The player to target.
-     * @param value The updated value.
+     * @param player The player being updated.
+     * @param value The updated status.
      */
     public static setParticipant(player: Player, value: boolean): void {
         if (value) {
@@ -38,27 +48,54 @@ export default class PlayerUtils {
     }
 
     /**
-     * Checks if a player is/was a particpant in a round.
-     * @param player The player to check.
+     * Updates whether or not a player is alive.
+     * 
+     * @param player The player being updated.
+     * @param value The updated status.
+     */
+    public static setAlive(player: Player, value: boolean): void {
+        if (value) {
+            player.removeTag('dead')
+        }
+        else {
+            player.addTag('dead')
+        }
+    }
+
+    /**
+     * Checks whether or not a player is playing in the ongoing round.
+     * @param player The player being checked.
      */
     public static isParticipant(player: Player): boolean {
         return player.hasTag('in_round')
     }
 
     /**
-     * Clears the inventory of a player.
-     * @param player The player to target.
+     * Checks whether or not a player is alive.
+     * @param player The player being checked.
      */
-    public static clearInventory(player: Player): void {
+    public static isAlive(player: Player): boolean {
+        return !player.hasTag('dead')
+    }
+    
+
+    /**
+     * Clears the inventory of a player
+     * @param player The player being cleared.
+     * @param includeArmor Whether to clear armor or not
+     */
+    public static clearInventory(player: Player, includeArmor: boolean = false): void {
         const inventoryComp = player.getComponent('minecraft:inventory') as EntityInventoryComponent
-        const equippableComp = player.getComponent('minecraft:equippable') as EntityEquippableComponent
         const container = inventoryComp.container
 
-        equippableComp.setEquipment(EquipmentSlot.Head)
-        equippableComp.setEquipment(EquipmentSlot.Chest)
-        equippableComp.setEquipment(EquipmentSlot.Legs)
-        equippableComp.setEquipment(EquipmentSlot.Feet)
+        if (includeArmor) {
+            const equippableComp = player.getComponent('minecraft:equippable') as EntityEquippableComponent
 
+            equippableComp.setEquipment(EquipmentSlot.Head)
+            equippableComp.setEquipment(EquipmentSlot.Chest)
+            equippableComp.setEquipment(EquipmentSlot.Legs)
+            equippableComp.setEquipment(EquipmentSlot.Feet)
+        }
         container.clearAll()
     }
 }

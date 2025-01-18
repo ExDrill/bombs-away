@@ -6,10 +6,12 @@ import ThrowableComponent from './component/ThrowableComponent'
 import Vector3d from './util/Vector3d'
 
 import './debug'
+import ShopEntity from './entity/ShopEntity'
 
 world.afterEvents.worldInitialize.subscribe(() => {
     GameManager.initialize()
     GlobalEvents.initialize()
+    ShopEntity.initialize()
     
     world.gameRules.doImmediateRespawn = true
     world.gameRules.doTileDrops = false

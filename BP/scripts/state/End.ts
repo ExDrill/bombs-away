@@ -1,9 +1,10 @@
 import { GameMode, world } from '@minecraft/server';
-import { DIMENSION, END_TICKS, LOBBY_SPAWNPOINT } from '../../constants';
-import { StateType } from '../../types';
-import PlayerUtils from '../../util/PlayerUtils';
-import GameManager from '../GameManager';
+import { DIMENSION, END_TICKS, LOBBY_SPAWNPOINT } from '../constants';
+import { StateType } from '../types';
+import PlayerUtils from '../util/PlayerUtils';
+import GameManager from '../core/GameManager';
 import State from './State';
+import PlayerManager from '../core/PlayerManager';
 
 export default class End extends State {
     private ticks: number
@@ -15,15 +16,20 @@ export default class End extends State {
         world.gameRules.pvp = false
         
         for (const player of PlayerUtils.getParticipants()) {
-            player.setGameMode(GameMode.adventure)
-
+            if (!PlayerUtils.isAlive(player)) {
+                PlayerManager.respawn(player, GameMode.adventure)
+            }
+            else {
+                player.setGameMode(GameMode.adventure)
+            }
+            
             player.setSpawnPoint({
                 x: LOBBY_SPAWNPOINT.x,
                 y: LOBBY_SPAWNPOINT.y,
                 z: LOBBY_SPAWNPOINT.z,
                 dimension: DIMENSION
             })
-            PlayerUtils.clearInventory(player)
+            PlayerUtils.clearInventory(player, true)
         }
     }
 

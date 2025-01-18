@@ -1,5 +1,5 @@
 import { system } from '@minecraft/server'
-import State from './state/State'
+import State from '../state/State'
 import { STATE_BY_TYPE } from '../constants'
 import { StateType } from '../types'
 

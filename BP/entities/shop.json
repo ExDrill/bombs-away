@@ -41,19 +41,13 @@
             "minecraft:interact": {
                 "interactions": [
                     {
-                        "on_interact": {
-                            "event": "bombs_away:open_form",
-                            "target": "self"
-                        }
+                        "swing": true
                     }
                 ]
             },
             "minecraft:physics": {},
             "minecraft:nameable": {}
         },
-        "events": {
-            // Scripted event
-            "bombs_away:open_form": {}
-        }
+        "events": {}
     }
 }
