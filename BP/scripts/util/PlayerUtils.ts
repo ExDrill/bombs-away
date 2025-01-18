@@ -1,4 +1,4 @@
-import { world, Player } from '@minecraft/server'
+import { world, Player, EntityInventoryComponent } from '@minecraft/server'
 import { DIMENSION, QUEUE_LOCATION, QUEUE_VOLUME } from '../constants'
 
 export default class PlayerUtils {
@@ -16,7 +16,7 @@ export default class PlayerUtils {
     /**
      * Returns the list of players that are participating in the ongoing round.
      */
-    public static getParticipatingPlayers(): Player[] {
+    public static getParticipants(): Player[] {
         return world.getPlayers({
             tags: ['in_round']
         })
@@ -28,7 +28,7 @@ export default class PlayerUtils {
      * @param player The player to target.
      * @param value The updated value.
      */
-    public static setAsParticipant(player: Player, value: boolean): void {
+    public static setParticipant(player: Player, value: boolean): void {
         if (value) {
             player.addTag('in_round')
         }
@@ -39,8 +39,20 @@ export default class PlayerUtils {
 
     /**
      * Checks if a player is/was a particpant in a round.
+     * @param player The player to check.
      */
-    public static isParticipating(player: Player): boolean {
+    public static isParticipant(player: Player): boolean {
         return player.hasTag('in_round')
+    }
+
+    /**
+     * Clears the inventory of a player.
+     * @param player The player to target.
+     */
+    public static clearInventory(player: Player): void {
+        const inventoryComp = player.getComponent('minecraft:inventory') as EntityInventoryComponent
+        const container = inventoryComp.container
+        
+        container.clearAll()
     }
 }

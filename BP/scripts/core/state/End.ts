@@ -6,7 +6,6 @@ import GameManager from '../GameManager';
 import State from './State';
 
 export default class End extends State {
-
     private ticks: number
 
     public override enter(): void {
@@ -15,7 +14,7 @@ export default class End extends State {
         // Disable building and combat during this phase
         world.gameRules.pvp = false
         
-        for (const player of PlayerUtils.getParticipatingPlayers()) {
+        for (const player of PlayerUtils.getParticipants()) {
             player.setGameMode(GameMode.adventure)
         }
     }
@@ -31,8 +30,8 @@ export default class End extends State {
     }
 
     public override exit(): void {
-        for (const participant of PlayerUtils.getParticipatingPlayers()) {
-            PlayerUtils.setAsParticipant(participant, false)
+        for (const participant of PlayerUtils.getParticipants()) {
+            PlayerUtils.setParticipant(participant, false)
             participant.teleport(LOBBY_SPAWNPOINT)
         }
     }

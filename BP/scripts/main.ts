@@ -5,9 +5,12 @@ import ThrowableComponent from './component/ThrowableComponent'
 import Vector3d from './util/Vector3d'
 
 import './debug'
+import GlobalEvents from './core/GlobalEvents'
 
-world.afterEvents.worldInitialize.subscribe(event => {
+world.afterEvents.worldInitialize.subscribe(() => {
     GameManager.initialize()
+    GlobalEvents.initialize()
+    
     world.gameRules.doImmediateRespawn = true
 })
 

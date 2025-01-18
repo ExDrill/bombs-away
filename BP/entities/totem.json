@@ -53,8 +53,8 @@
 			"minecraft:nameable": {
 				"always_show": false
 			},
-
-			// Immune to friendly fire and non-explosive damage
+			
+			// Immune to friendly fire
             "minecraft:damage_sensor": {
                 "triggers": [
 					{
@@ -96,19 +96,7 @@
 							}
 						},
 						"deals_damage": "no"
-					},
-                    {
-                        "cause": "block_explosion",
-                        "deals_damage": "yes"
-                    },
-                    {
-                        "cause": "entity_explosion",
-                        "deals_damage": "yes"
-                    },
-                    {
-                        "cause": "all",
-                        "deals_damage": "no"
-                    }
+					}
                 ]
             }
         }

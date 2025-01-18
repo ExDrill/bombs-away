@@ -53,7 +53,7 @@ export default class Lobby extends State {
         
         // Players in queue will now be participants
         for (const player of queuedPlayers) {
-            PlayerUtils.setAsParticipant(player, true)
+            PlayerUtils.setParticipant(player, true)
         }
     }
 

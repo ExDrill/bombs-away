@@ -4,6 +4,7 @@ import { StateType } from '../../types';
 import PlayerUtils from '../../util/PlayerUtils';
 import ScreenDisplayUtils from '../../util/ScreenDisplayUtils'
 import GameManager from '../GameManager';
+import PlayerManager from '../PlayerManager';
 import State from './State';
 
 export default class Round extends State {
@@ -12,13 +13,11 @@ export default class Round extends State {
     // Event Functions
     private readonly playerDieAfter: any = this.onPlayerDieAfter.bind(this)
     private readonly totemDieAfter: any = this.onTotemDieAfter.bind(this)
-    private readonly playerBreakBlockBefore: any = this.onPlayerBreakBlockBefore.bind(this)
-    private readonly explosionBefore: any = this.onExplosionBefore.bind(this)
 
     public override enter(): void {
         this.roundTicks = MAX_ROUND_TICKS
 
-        const participants = PlayerUtils.getParticipatingPlayers()
+        const participants = PlayerUtils.getParticipants()
 
         // Gamerules
         world.gameRules.pvp = true
@@ -30,8 +29,6 @@ export default class Round extends State {
         world.afterEvents.entityDie.subscribe(this.totemDieAfter, {
             entityTypes: ['bombs_away:totem']
         })
-        world.beforeEvents.playerBreakBlock.subscribe(this.playerBreakBlockBefore)
-        world.beforeEvents.explosion.subscribe(this.explosionBefore)
 
         // Totem setup
         for (let i = 0; i <= 1; i++) {
@@ -41,11 +38,9 @@ export default class Round extends State {
         }
 
         // Player setup
-        for (const participant of participants) {
-            participant.setGameMode(GameMode.survival)
-        }
+        PlayerManager.setup(participants)
 
-        // The round has begun. :)
+        // The round has started :)
         ScreenDisplayUtils.setTitle('Round Start!', participants)
     }
 
@@ -54,14 +49,14 @@ export default class Round extends State {
             this.roundTicks--
         }
         else {
-            ScreenDisplayUtils.setTitleWithSubtitle("Round End!", 'Draw!', PlayerUtils.getParticipatingPlayers())
+            ScreenDisplayUtils.setTitleWithSubtitle("Round End!", 'Draw!', PlayerUtils.getParticipants())
             GameManager.setState(StateType.end)
         }
 
         if (ROUND_TIME_NOTIFIERS.has(this.roundTicks)) {
             const notifier = ROUND_TIME_NOTIFIERS.get(this.roundTicks)
 
-            ScreenDisplayUtils.setTitle(notifier, PlayerUtils.getParticipatingPlayers())
+            ScreenDisplayUtils.setTitle(notifier, PlayerUtils.getParticipants())
         }
     }
 
@@ -69,8 +64,6 @@ export default class Round extends State {
         // Destroy the saved events once the round is over.
         world.afterEvents.entityDie.unsubscribe(this.playerDieAfter)
         world.afterEvents.entityDie.unsubscribe(this.totemDieAfter)
-        world.beforeEvents.playerBreakBlock.unsubscribe(this.playerBreakBlockBefore)
-        world.beforeEvents.explosion.unsubscribe(this.explosionBefore)
 
         // Clean up any remaining totems
         for (const totem of DIMENSION.getEntities({ type: 'bombs_away:totem'})) {
@@ -79,36 +72,15 @@ export default class Round extends State {
     }
     
     private onPlayerDieAfter(event: EntityDieAfterEvent): void {
-        const player = event.deadEntity as Player
-
-        player.setGameMode(GameMode.spectator)
-
-        // TODO: add respawn countdown
+        PlayerManager.queueRespawn(event.deadEntity as Player)
     }
 
     private onTotemDieAfter(event: EntityDieAfterEvent): void {
         const entity = event.deadEntity
         const team = entity.getProperty('bombs_away:team') as number
 
-        ScreenDisplayUtils.setTitleWithSubtitle('Round End!', TOTEM_INFOS[team].deathMessage, PlayerUtils.getParticipatingPlayers())
+        ScreenDisplayUtils.setTitleWithSubtitle('Round End!', TOTEM_INFOS[team].deathMessage, PlayerUtils.getParticipants())
         GameManager.setState(StateType.end)
-    }
-
-    private onPlayerBreakBlockBefore(event: PlayerBreakBlockBeforeEvent) {
-        const block = event.block
-
-        // Only wool can be broken
-        if (!block.typeId.includes('wool')) {
-            event.cancel = true
-        }
-    }
-
-    private onExplosionBefore(event: ExplosionBeforeEvent) {
-        const impactedBlocks = event.getImpactedBlocks()
-        const woolBlocks = impactedBlocks.filter(block => block.typeId.includes('wool'))
-        
-        // Only wool can be broken
-        event.setImpactedBlocks(woolBlocks)
     }
 
     public getType(): StateType {

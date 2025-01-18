@@ -1,0 +1,20 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "bombs_away:shop",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/npc/npc_scientist_10"
+            },
+            "geometry": {
+                "default": "geometry.npc"
+            },
+            "render_controllers": [
+                "controller.render.default"
+            ]
+        }
+    }
+}

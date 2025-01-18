@@ -10,13 +10,14 @@ export default class GameManager {
     public static initialize(): void {
         this.state = STATE_BY_TYPE.get(StateType.lobby)
         this.oldState = STATE_BY_TYPE.get(StateType.lobby)
-
         this.state.enter()
+
+        // The tick/update function
         system.runInterval(this.tick.bind(this), 1)
     }
     
     // A basic state machine for handling game phases
-    public static tick(): void {
+    private static tick(): void {
         if (this.oldState != this.state) {
             this.oldState.exit()
             this.state.enter()
