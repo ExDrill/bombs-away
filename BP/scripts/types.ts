@@ -6,6 +6,14 @@ export type TotemInfo = {
     deathMessage: string
 }
 
+export type ShopOffer =  {
+    displayName: string,
+    iconTexture: string,
+    item: string | string[],
+    count: number,
+    cost: number
+}
+
 export enum StateType {
     lobby = 'lobby',
     round = 'round',

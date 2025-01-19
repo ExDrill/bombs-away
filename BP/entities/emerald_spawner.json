@@ -2,7 +2,7 @@
     "format_version": "1.21.50",
     "minecraft:entity": {
         "description": {
-            "identifier": "bombs_away:shop",
+            "identifier": "bombs_away:emerald_spawner",
             "is_summonable": true
         },
         "components": {
@@ -31,16 +31,15 @@
                     }
                 ]
             },
-            "minecraft:interact": {
-                "interactions": [
-                    {
-                        "swing": true
-                    }
-                ]
-            },
-            "minecraft:physics": {},
-            "minecraft:nameable": {}
-        },
-        "events": {}
+            "minecraft:spawn_entity": {
+                "entities": {
+                    "spawn_item": "minecraft:emerald",
+                    "single_use": false,
+                    "num_to_spawn": 1,
+                    "min_wait_time": 5,
+                    "max_wait_time": 5
+                }
+            }
+        }
     }
 }

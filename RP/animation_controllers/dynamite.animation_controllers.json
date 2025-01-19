@@ -1,0 +1,29 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.dynamite.idle": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"animations": ["ground"],
+					"transitions": [
+						{
+							"fly": "!query.is_on_ground"
+						}
+					],
+					"blend_transition": 0.1
+				},
+				"fly": {
+					"animations": ["fly"],
+					"transitions": [
+						{
+							"default": "query.is_on_ground"
+						}
+					],
+					"blend_transition": 0.25,
+					"blend_via_shortest_path": true
+				}
+			}
+		}
+	}
+}

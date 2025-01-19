@@ -4,6 +4,9 @@
 	"texture_data": {
 		"bomb": {
 			"textures": "textures/items/bomb"
+		},
+		"dynamite_stick": {
+			"textures": "textures/items/dynamite_stick"
 		}
 	}
 }

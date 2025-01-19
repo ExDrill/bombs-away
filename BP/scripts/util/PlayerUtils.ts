@@ -1,4 +1,4 @@
-import { world, Player, EntityInventoryComponent, EntityEquippableComponent, EquipmentSlot } from '@minecraft/server'
+import { world, Player, EntityInventoryComponent, EntityEquippableComponent, EquipmentSlot, Container } from '@minecraft/server'
 import { DIMENSION, QUEUE_LOCATION, QUEUE_VOLUME } from '../constants'
 
 export default class PlayerUtils {
@@ -78,6 +78,16 @@ export default class PlayerUtils {
         return !player.hasTag('dead')
     }
     
+    
+    /**
+     * Returns the player's inventory container.
+     * @param player The player being cleared.
+     * @param includeArmor Whether to clear armor or not
+     */
+    public static getContainer(player: Player): Container {
+        const inventoryComp = player.getComponent('minecraft:inventory') as EntityInventoryComponent
+        return inventoryComp.container
+    }
 
     /**
      * Clears the inventory of a player
@@ -85,8 +95,8 @@ export default class PlayerUtils {
      * @param includeArmor Whether to clear armor or not
      */
     public static clearInventory(player: Player, includeArmor: boolean = false): void {
-        const inventoryComp = player.getComponent('minecraft:inventory') as EntityInventoryComponent
-        const container = inventoryComp.container
+        const container = PlayerUtils.getContainer(player)
+        container.clearAll()
 
         if (includeArmor) {
             const equippableComp = player.getComponent('minecraft:equippable') as EntityEquippableComponent
@@ -95,7 +105,6 @@ export default class PlayerUtils {
             equippableComp.setEquipment(EquipmentSlot.Chest)
             equippableComp.setEquipment(EquipmentSlot.Legs)
             equippableComp.setEquipment(EquipmentSlot.Feet)
-        }
-        container.clearAll()
+        }   
     }
 }

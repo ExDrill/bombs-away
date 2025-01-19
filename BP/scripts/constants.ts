@@ -1,5 +1,5 @@
 import { Vector3, Dimension, world } from '@minecraft/server'
-import { StateType, TotemInfo } from './types'
+import { ShopOffer, StateType, TotemInfo } from './types'
 import End from './state/End'
 import Lobby from './state/Lobby'
 import Round from './state/Round'
@@ -11,11 +11,47 @@ export const LOBBY_SPAWNPOINT: Vector3 = { x: 0, y: 7, z: 0 }
 export const QUEUE_LOCATION: Vector3 = { x: 21, y: 5, z: -4 }
 export const QUEUE_VOLUME: Vector3 = { x: 7, y: 6, z: 9 }
 
-// Dyeable component doesn't exist in 1.16.0, use equipment chests instead :/
+// Dyeable component doesn't exist in server 1.16.0, use equipment chests instead :/
 export const EQUIPMENT_CHESTS: Vector3[] = [
     { x: 959, y: 0, z: 1000 },
     { x: 1041, y: 0, z: 1000 }
 ]
+
+export const SHOP_OFFERS: ShopOffer[] = [
+    {
+        displayName: 'Wooden Sword',
+        iconTexture: 'textures/items/wood_sword',
+
+        item: 'minecraft:wooden_sword',
+        count: 1,
+        cost: 5
+    },
+    {
+        displayName: 'Bomb',
+        iconTexture: 'textures/items/bomb',
+
+        item: 'bombs_away:bomb',
+        count: 1,
+        cost: 10
+    },
+    {
+        displayName: 'Dynamite Stick',
+        iconTexture: 'textures/items/dynamite_stick',
+
+        item: 'bombs_away:dynamite_stick',
+        count: 1,
+        cost: 20
+    },
+    {
+        displayName: 'Wool',
+        iconTexture: 'textures/blocks/wool_colored_white',
+
+        item: ['minecraft:red_wool', 'minecraft:blue_wool'],
+        count: 1,
+        cost: 5
+    }
+]
+
 
 export const TOTEM_INFOS: TotemInfo[] = [
     {

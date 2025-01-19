@@ -3,8 +3,11 @@ pack.description=Contains explosions.
 
 ## Entities
 entity.bombs_away:bomb.name=Bomb
+entity.bombs_away:dynamite_stick.name=Dynamite Stick
+entity.bombs_away:emerald_spawner.name=Emerald Spawner
 entity.bombs_away:totem.name=Totem
 entity.bombs_away:shop.name=Shop
 
 ## Items
 item.bombs_away:bomb=Bomb
+item.bombs_away:dynamite_stick=Dynamite Stick

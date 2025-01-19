@@ -2,7 +2,7 @@
     "format_version": "1.21.50",
     "minecraft:entity": {
         "description": {
-            "identifier": "bombs_away:bomb",
+            "identifier": "bombs_away:dynamite_stick",
             "is_summonable": true,
             "properties": {
                 "bombs_away:ignited": {
@@ -27,8 +27,8 @@
                 "minecraft:explode": {
                     "fuse_length": 0,
                     "fuse_lit": true,
-                    "damage_scaling": 1.5,
-                    "power": 2
+                    "damage_scaling": 1.0,
+                    "power": 5
                 }
             }
         },
@@ -73,8 +73,7 @@
                     }
                 ]
             },
-            "minecraft:physics": {},
-            "minecraft:body_rotation_blocked": {}
+            "minecraft:physics": {}
         },
         "events": {
             "bombs_away:ignite": {

@@ -1,10 +1,27 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.bomb.ignite": {
+		"animation.dynamite.fly": {
+			"loop": true,
+			"bones": {
+				"dynamite": {
+					"rotation": ["query.anim_time*540", 0, 0]
+				}
+			}
+		},
+		"animation.dynamite.ground": {
+			"loop": true,
+			"bones": {
+				"dynamite": {
+					"rotation": [90, 0, 0],
+					"position": [0, -3.5, 0]
+				}
+			}
+		},
+		"animation.dynamite.ignite": {
 			"animation_length": 2,
 			"bones": {
-				"bomb": {
+				"dynamite": {
 					"scale": {
 						"0.0": {
 							"post": [1, 1, 1],
@@ -55,7 +72,7 @@
 				"rope": {
 					"position": {
 						"0.0": [0, 0, 0],
-						"2.0": [0, -5, 0]
+						"2.0": [0, -3.25, 0]
 					}
 				}
 			},
