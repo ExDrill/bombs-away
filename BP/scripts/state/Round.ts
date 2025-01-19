@@ -67,9 +67,9 @@ export default class Round extends State {
         world.afterEvents.entityDie.unsubscribe(this.playerDieAfter)
         world.afterEvents.entityDie.unsubscribe(this.totemDieAfter)
 
-        // Clean up any remaining totems
-        for (const totem of DIMENSION.getEntities({ type: 'bombs_away:totem'})) {
-            totem.remove()
+        // Clean up non-player entities
+        for (const entity of DIMENSION.getEntities({ excludeTypes: ['minecraft:player'] })) {
+            entity.remove()
         }
     }
     
