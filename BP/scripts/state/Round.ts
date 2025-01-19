@@ -71,6 +71,7 @@ export default class Round extends State {
         for (const entity of DIMENSION.getEntities({ excludeTypes: ['minecraft:player'] })) {
             entity.remove()
         }
+        PlayerManager.destroyTickers()
     }
     
     private onPlayerDieAfter(event: EntityDieAfterEvent): void {

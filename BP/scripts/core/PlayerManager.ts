@@ -6,18 +6,28 @@ import PlayerUtils from '../util/PlayerUtils'
 
 export default class PlayerManager {
     /**
-     * A table linking player IDs to their respawn time
+     * A table linking player IDs to their respective respawn ticks.
      */
     private static playerToRespawnTicks: Map<string, number> = new Map<string, number>()
+
+    /**
+     * A table linking player IDs to their respective tickers.
+     */
+    private static playerTickers: Map<string, number> = new Map<string, number>()
 
     public static setup(participants: Player[]): void {
         this.assignTeams(participants)
 
         for (const player of participants) {
             this.spawn(player)
-
-            system.runInterval(() => this.tick(player), 1)
+    
+            const ticker = system.runInterval(() => this.tick(player), 1)
+            this.playerTickers.set(player.id, ticker)
         }
+    }
+
+    public static destroyTickers(): void {
+        this.playerTickers.clear()
     }
 
     public static spawn(player: Player) {
