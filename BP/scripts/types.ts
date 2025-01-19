@@ -9,7 +9,7 @@ export type TotemInfo = {
 export type ShopOffer =  {
     displayName: string,
     iconTexture: string,
-    item: string | string[],
+    item: string[],
     count: number,
     cost: number
 }

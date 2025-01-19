@@ -18,6 +18,8 @@ export default class Shop {
         const form = this.createForm()
 
         const response = await form.show(player)
+        
+        if (response.canceled) return
 
         this.purchase(player, response.selection)
     }
@@ -31,22 +33,19 @@ export default class Shop {
 
         for (let i = 0; i < container.size; i++) {
             const stack = container.getItem(i)
+            if (!stack) continue
 
             if (stack.typeId == 'minecraft:emerald') {
-                emeraldCount++
+                emeraldCount += stack.amount
             }
         }
         if (emeraldCount < offer.cost) {
+            player.sendMessage('You cannot afford this item!')
             return
         }
-
-        let finalItem = offer.item
-
-        if (typeof finalItem != 'number') {
-            finalItem = offer.item[team]
-        }
-        player.runCommand(`clear @s minecraft:emerald ${offer.cost}`)
-        player.runCommand(`give @s ${finalItem} ${offer.count}`)
+        
+        player.runCommand(`clear @s emerald 0 ${offer.cost}`)
+        player.runCommand(`give @s ${offer.item[team]} ${offer.count}`)
     }
 
     private static createForm(): ActionFormData {

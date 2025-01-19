@@ -1,5 +1,5 @@
 import { world, EntityDieAfterEvent, Player } from '@minecraft/server'
-import { DIMENSION, TOTEM_INFOS, MAX_ROUND_TICKS, ROUND_TIME_NOTIFIERS } from '../constants';
+import { DIMENSION, TOTEM_INFOS, MAX_ROUND_TICKS, ROUND_TIME_NOTIFIERS, SHOPS, EMERALD_SPAWNERS } from '../constants';
 import { StateType } from '../types';
 import PlayerUtils from '../util/PlayerUtils';
 import ScreenDisplayUtils from '../util/ScreenDisplayUtils'
@@ -30,11 +30,14 @@ export default class Round extends State {
             entityTypes: ['bombs_away:totem']
         })
 
-        // Totem setup
+        // Spawn additional entities
         for (let i = 0; i <= 1; i++) {
             const totem = DIMENSION.spawnEntity('bombs_away:totem', TOTEM_INFOS[i].spawnPos)
             totem.nameTag = TOTEM_INFOS[i].name
             totem.setProperty('bombs_away:team', i)
+
+            DIMENSION.spawnEntity('bombs_away:shop', SHOPS[i])
+            DIMENSION.spawnEntity('bombs_away:emerald_spawner', EMERALD_SPAWNERS[i])
         }
 
         // Player setup

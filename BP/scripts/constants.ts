@@ -22,7 +22,7 @@ export const SHOP_OFFERS: ShopOffer[] = [
         displayName: 'Wooden Sword',
         iconTexture: 'textures/items/wood_sword',
 
-        item: 'minecraft:wooden_sword',
+        item: ['minecraft:wooden_sword', 'minecraft:wooden_sword'],
         count: 1,
         cost: 5
     },
@@ -30,7 +30,7 @@ export const SHOP_OFFERS: ShopOffer[] = [
         displayName: 'Bomb',
         iconTexture: 'textures/items/bomb',
 
-        item: 'bombs_away:bomb',
+        item: ['bombs_away:bomb', 'bombs_away:bomb'],
         count: 1,
         cost: 10
     },
@@ -38,7 +38,7 @@ export const SHOP_OFFERS: ShopOffer[] = [
         displayName: 'Dynamite Stick',
         iconTexture: 'textures/items/dynamite_stick',
 
-        item: 'bombs_away:dynamite_stick',
+        item: ['bombs_away:dynamite_stick', 'bombs_away:dynamite_stick'],
         count: 1,
         cost: 20
     },
@@ -47,11 +47,10 @@ export const SHOP_OFFERS: ShopOffer[] = [
         iconTexture: 'textures/blocks/wool_colored_white',
 
         item: ['minecraft:red_wool', 'minecraft:blue_wool'],
-        count: 1,
-        cost: 5
+        count: 16,
+        cost: 2
     }
 ]
-
 
 export const TOTEM_INFOS: TotemInfo[] = [
     {
@@ -64,6 +63,15 @@ export const TOTEM_INFOS: TotemInfo[] = [
         spawnPos: { x: 1033.5, y: 4, z: 1000.5 },
         deathMessage: 'Red Team Wins!'
     }
+]
+
+export const EMERALD_SPAWNERS: Vector3[] = [
+    { x: 961, y: 5, z: 1000 },
+    { x: 1039, y: 5, z: 1000 }
+]
+export const SHOPS: Vector3[] = [
+    { x: 967, y: 2, z: 994 },
+    { x: 1033, y: 2, z: 1006 }
 ]
 
 export const TEAM_SPAWNPOINTS: Vector3[] = [
