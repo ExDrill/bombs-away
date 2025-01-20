@@ -3,24 +3,28 @@
 	"metadata": {
 		"authors": [
 			"ExDrill"
-		],
-		"generated_with": {
-			"bridge": [
-				"2.7.42"
-			],
-			"dash": [
-				"0.11.7"
-			]
-		}
+		]
 	},
 	"header": {
 		"name": "Bombs Away!",
 		"description": "An explosive game.",
-		"min_engine_version": [1, 21, 0],
+		"min_engine_version": [
+			1,
+			21,
+			0
+		],
 		"uuid": "d33fb8fd-d1b5-4a02-9f01-105bac33f609",
-		"version": [1, 0, 0],
+		"version": [
+			1,
+			0,
+			0
+		],
 		"lock_template_options": true,
-		"base_game_version": [1, 21, 50]
+		"base_game_version": [
+			1,
+			21,
+			50
+		]
 	},
 	"modules": [
 		{
