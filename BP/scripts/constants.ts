@@ -1,4 +1,4 @@
-import { Vector3, Dimension, world } from '@minecraft/server'
+import { Vector3, Dimension, world, BlockVolume } from '@minecraft/server'
 import { ShopOffer, StateType, TotemInfo } from './types'
 import End from './state/End'
 import Lobby from './state/Lobby'
@@ -10,6 +10,11 @@ export const DIMENSION: Dimension = world.getDimension('overworld')
 export const LOBBY_SPAWNPOINT: Vector3 = { x: 0, y: 58, z: 0 }
 export const QUEUE_LOCATION: Vector3 = { x: -22, y: 57, z: -2 }
 export const QUEUE_VOLUME: Vector3 = { x: 9, y: 10, z: 5 }
+
+export const CLEANUP_VOLUME: BlockVolume = new BlockVolume(
+    {x: 1043, y: 53, z: 1033},
+    {x: 955, y: 78, z: 963}
+)
 
 // Dyeable component doesn't exist in server 1.16.0, use equipment chests instead :/
 export const EQUIPMENT_CHESTS: Vector3[] = [
@@ -41,6 +46,14 @@ export const SHOP_OFFERS: ShopOffer[] = [
         item: ['bombs_away:dynamite_stick', 'bombs_away:dynamite_stick'],
         count: 1,
         cost: 20
+    },
+    {
+        displayName: 'Shears',
+        iconTexture: 'textures/items/shears',
+
+        item: ['minecraft:shears', 'minecraft:shears'],
+        count: 1,
+        cost: 5
     },
     {
         displayName: 'Wool',

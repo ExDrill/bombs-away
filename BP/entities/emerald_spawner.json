@@ -31,15 +31,17 @@
                     }
                 ]
             },
-            "minecraft:spawn_entity": {
-                "entities": {
-                    "spawn_item": "minecraft:emerald",
-                    "single_use": false,
-                    "num_to_spawn": 1,
-                    "min_wait_time": 5,
-                    "max_wait_time": 5
+            "minecraft:timer": {
+                "looping": true,
+                "time": 5,
+                "time_down_event": {
+                    "event": "bombs_away:spawn_emerald",
+                    "target": "self"
                 }
             }
+        },
+        "events": {
+            "bombs_away:spawn_emerald": {}
         }
     }
 }

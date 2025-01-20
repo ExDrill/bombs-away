@@ -1,6 +1,8 @@
 import { EntityTameableComponent, ItemCustomComponent, ItemUseAfterEvent, Player } from '@minecraft/server';
 import Vector3d from '../util/Vector3d';
 
+// ogre
+
 export default class ThrowableComponent implements ItemCustomComponent {
     private readonly entityId: string
     private readonly force: Vector3d

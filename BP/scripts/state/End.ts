@@ -1,5 +1,5 @@
-import { GameMode, world } from '@minecraft/server';
-import { DIMENSION, END_TICKS, LOBBY_SPAWNPOINT } from '../constants';
+import { BlockLocationIterator, BlockVolume, GameMode, Vector3, world } from '@minecraft/server';
+import { CLEANUP_VOLUME, DIMENSION, END_TICKS, LOBBY_SPAWNPOINT } from '../constants';
 import { StateType } from '../types';
 import PlayerUtils from '../util/PlayerUtils';
 import GameManager from '../core/GameManager';
@@ -7,10 +7,10 @@ import State from './State';
 import PlayerManager from '../core/PlayerManager';
 
 export default class End extends State {
-    private ticks: number
+    private cleanUpIterator: BlockLocationIterator
 
     public override enter(): void {
-        this.ticks = END_TICKS
+        this.cleanUpIterator = CLEANUP_VOLUME.getBlockLocationIterator()
 
         // Disable building and combat during this phase
         world.gameRules.pvp = false
@@ -34,12 +34,20 @@ export default class End extends State {
     }
 
     public override tick(): void {
-        if (this.ticks > 0) {
-            this.ticks--
-        }
+        // Could be more performant, but it does the job
+        for (let i = 0; i < 1024; i++) {
+            const next = this.cleanUpIterator.next()
 
-        if (this.ticks == 0) {
-            GameManager.setState(StateType.lobby)
+            if (next.done) {
+                GameManager.setState(StateType.lobby)
+                break
+            }
+            const pos: Vector3 = next.value
+            const block = DIMENSION.getBlock(pos)
+
+            if (block.typeId.includes('wool')) {
+                block.setType('minecraft:air')
+            }
         }
     }
 

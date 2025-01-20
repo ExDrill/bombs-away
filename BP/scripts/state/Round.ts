@@ -36,7 +36,9 @@ export default class Round extends State {
             totem.nameTag = TOTEM_INFOS[i].name
             totem.setProperty('bombs_away:team', i)
 
-            DIMENSION.spawnEntity('bombs_away:shop', SHOPS[i])
+            const shop = DIMENSION.spawnEntity('bombs_away:shop', SHOPS[i])
+            shop.nameTag = 'Shop'
+
             DIMENSION.spawnEntity('bombs_away:emerald_spawner', EMERALD_SPAWNERS[i])
         }
 
