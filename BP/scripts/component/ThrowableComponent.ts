@@ -17,10 +17,10 @@ export default class ThrowableComponent implements ItemCustomComponent {
 
     public onUse(event: ItemUseAfterEvent): void {
         const user = event.source
-        this.spawnBomb(user)
+        this.spawnEntity(user)
     }
 
-    private spawnBomb(user: Player): void {
+    private spawnEntity(user: Player): void {
         const dimension = user.dimension
 
         const viewDir = Vector3d.convertFrom(user.getViewDirection())

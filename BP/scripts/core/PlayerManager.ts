@@ -18,12 +18,14 @@ export default class PlayerManager {
     public static setup(participants: Player[]): void {
         this.assignTeams(participants)
 
-        for (const player of participants) {
-            this.spawn(player)
-    
-            const ticker = system.runInterval(() => this.tick(player), 1)
-            this.playerTickers.set(player.id, ticker)
-        }
+        system.runTimeout(() => {
+            for (const player of participants) {
+                this.spawn(player)
+        
+                const ticker = system.runInterval(() => this.tick(player), 1)
+                this.playerTickers.set(player.id, ticker)
+            }
+        }, 2)
     }
 
     public static destroyTickers(): void {
@@ -82,13 +84,15 @@ export default class PlayerManager {
         }
     }
 
-    private static assignTeams(players: Player[]): void {
+    public static assignTeams(players: Player[]): void {
         const shuffledPlayers = ArrayUtils.shuffle(players)
         const teamSplit = Math.floor(players.length / 2) - 1
         
         for (let i = 0; i < shuffledPlayers.length; i++) {
             const player = shuffledPlayers[i]
-            player.setProperty('bombs_away:team', i <= teamSplit ? 0 : 1)    
+            const assignedTeam = i <= teamSplit ? 0 : 1
+            
+            player.setProperty('bombs_away:team', assignedTeam)    
         }
     }
 

@@ -6,14 +6,20 @@ import ThrowableComponent from './component/ThrowableComponent'
 import Vector3d from './util/Vector3d'
 import Shop from './core/Shop'
 import EmeraldSpawner from './core/EmeraldSpawner'
+import DynamiteStick from './core/DynamiteStick'
+import Bomb from './core/Bomb'
 
 import './debug'
 
 world.afterEvents.worldInitialize.subscribe(() => {
     GameManager.initialize()
     GlobalEvents.initialize()
+
+    // Entities
     Shop.initialize()
     EmeraldSpawner.initialize()
+    Bomb.initialize()
+    DynamiteStick.initialize()
     
     world.gameRules.doImmediateRespawn = true
     world.gameRules.doTileDrops = false

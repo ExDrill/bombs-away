@@ -17,52 +17,6 @@
 			}
 		},
 		"components": {
-			// Handles friendly fire
-			"minecraft:damage_sensor": {
-				"triggers": [
-					{
-						"on_damage": {
-							"filters": {
-								"all_of": [
-									{
-										"test": "int_property",
-										"domain": "bombs_away:team",
-										"value": 0
-									},
-									{
-										"test": "int_property",
-										"domain": "bombs_away:team",
-										"subject": "other",
-										"value": 0
-									}
-								]
-							}
-						},
-						"deals_damage": "no"
-					},
-					{
-						"on_damage": {
-							"filters": {
-								"all_of": [
-									{
-										"test": "int_property",
-										"domain": "bombs_away:team",
-										"value": 1
-									},
-									{
-										"test": "int_property",
-										"domain": "bombs_away:team",
-										"subject": "other",
-										"value": 1
-									}
-								]
-							}
-						},
-						"deals_damage": "no"
-					}
-				]
-			},
-
 			"minecraft:experience_reward": {
 				"on_death": "Math.Min(query.player_level * 7, 100)"
 			},
@@ -177,7 +131,53 @@
 				]
 			},
 			"minecraft:conditional_bandwidth_optimization": {},
-			"minecraft:block_climber": {}
+			"minecraft:block_climber": {},
+
+			// Handles friendly fire
+			"minecraft:damage_sensor": {
+                "triggers": [
+					{
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "int_property",
+										"domain": "bombs_away:team",
+										"value": 0
+									},
+									{
+										"test": "int_property",
+										"domain": "bombs_away:team",
+										"subject": "other",
+										"value": 0
+									}
+								]
+							}
+						},
+						"deals_damage": "no"
+					},
+					{
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "int_property",
+										"domain": "bombs_away:team",
+										"value": 1
+									},
+									{
+										"test": "int_property",
+										"domain": "bombs_away:team",
+										"subject": "other",
+										"value": 1
+									}
+								]
+							}
+						},
+						"deals_damage": "no"
+					}
+                ]
+            }
 		},
 		"events": {}
 	}

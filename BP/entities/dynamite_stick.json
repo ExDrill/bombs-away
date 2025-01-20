@@ -22,16 +22,6 @@
                 ]
             }
         },
-        "component_groups": {
-            "bombs_away:explode": {
-                "minecraft:explode": {
-                    "fuse_length": 0,
-                    "fuse_lit": true,
-                    "damage_scaling": 1.0,
-                    "power": 5
-                }
-            }
-        },
         "components": {
             "minecraft:health": {
                 "value": 1,
@@ -81,11 +71,8 @@
                     "bombs_away:ignited": true
                 }
             },
-            "bombs_away:explode": {
-                "add": {
-                    "component_groups": ["bombs_away:explode"]
-                }
-            }
+            // Scripted event
+            "bombs_away:explode": {}
         }
     }
 }

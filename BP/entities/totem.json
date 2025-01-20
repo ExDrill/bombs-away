@@ -96,6 +96,10 @@
 							}
 						},
 						"deals_damage": "no"
+					},
+					{
+						"cause": "entity_attack",
+						"damage_multiplier": 0.75
 					}
                 ]
             }
