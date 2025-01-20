@@ -7,14 +7,14 @@ import State from './state/State'
 
 export const DIMENSION: Dimension = world.getDimension('overworld')
 
-export const LOBBY_SPAWNPOINT: Vector3 = { x: 0, y: 7, z: 0 }
-export const QUEUE_LOCATION: Vector3 = { x: 21, y: 5, z: -4 }
-export const QUEUE_VOLUME: Vector3 = { x: 7, y: 6, z: 9 }
+export const LOBBY_SPAWNPOINT: Vector3 = { x: 0, y: 58, z: 0 }
+export const QUEUE_LOCATION: Vector3 = { x: -22, y: 57, z: -2 }
+export const QUEUE_VOLUME: Vector3 = { x: 9, y: 10, z: 5 }
 
 // Dyeable component doesn't exist in server 1.16.0, use equipment chests instead :/
 export const EQUIPMENT_CHESTS: Vector3[] = [
-    { x: 959, y: 0, z: 1000 },
-    { x: 1041, y: 0, z: 1000 }
+    { x: 952, y: 56, z: 1000 },
+    { x: 1048, y: 56, z: 1000 }
 ]
 
 export const SHOP_OFFERS: ShopOffer[] = [
@@ -55,28 +55,28 @@ export const SHOP_OFFERS: ShopOffer[] = [
 export const TOTEM_INFOS: TotemInfo[] = [
     {
         name: '§m§lTotem', // Red Team
-        spawnPos: { x: 967.5, y: 4, z: 1000.5 },
+        spawnPos: { x: 962.5, y: 59, z: 1000.5 },
         deathMessage: 'Blue Team Wins!'
     },
     {
         name: '§t§lTotem', // Blue Team
-        spawnPos: { x: 1033.5, y: 4, z: 1000.5 },
+        spawnPos: { x: 1038.5, y: 59, z: 1000.5 },
         deathMessage: 'Red Team Wins!'
     }
 ]
 
 export const EMERALD_SPAWNERS: Vector3[] = [
-    { x: 961, y: 5, z: 1000 },
-    { x: 1039, y: 5, z: 1000 }
+    { x: 954.5, y: 61.5, z: 1000.5 },
+    { x: 1044.5, y: 61.5, z: 1000.5 }
 ]
 export const SHOPS: Vector3[] = [
-    { x: 967, y: 2, z: 994 },
-    { x: 1033, y: 2, z: 1006 }
+    { x: 958.5, y: 57, z: 1005.5 },
+    { x: 1042.5, y: 57, z: 1005.5 }
 ]
 
 export const TEAM_SPAWNPOINTS: Vector3[] = [
-    { x: 972, y: 2, z: 1000 }, // Red Team
-    { x: 1028, y: 2, z: 1000 } // Blue Team
+    { x: 958, y: 57, z: 1000 }, // Red Team
+    { x: 1042, y: 57, z: 1000 } // Blue Team
 ]
 
 export const STATE_BY_TYPE: Map<string, State> = new Map<string, State>([
@@ -98,7 +98,4 @@ export const ROUND_TIME_NOTIFIERS: Map<number, string> = new Map([
     [60, '3'],
     [40, '2'],
     [20, '1']
-]) 
-
-
-
+])
