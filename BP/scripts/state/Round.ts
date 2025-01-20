@@ -39,7 +39,8 @@ export default class Round extends State {
             const shop = DIMENSION.spawnEntity('bombs_away:shop', SHOPS[i])
             shop.nameTag = 'Shop'
 
-            DIMENSION.spawnEntity('bombs_away:emerald_spawner', EMERALD_SPAWNERS[i])
+            const emeraldSpawner = DIMENSION.spawnEntity('bombs_away:emerald_spawner', EMERALD_SPAWNERS[i])
+            emeraldSpawner.setProperty('bombs_away:team', i)
         }
 
         // Player setup

@@ -60,7 +60,7 @@ export const SHOP_OFFERS: ShopOffer[] = [
         iconTexture: 'textures/blocks/wool_colored_white',
 
         item: ['minecraft:red_wool', 'minecraft:blue_wool'],
-        count: 16,
+        count: 32,
         cost: 2
     }
 ]
@@ -79,8 +79,8 @@ export const TOTEM_INFOS: TotemInfo[] = [
 ]
 
 export const EMERALD_SPAWNERS: Vector3[] = [
-    { x: 954.5, y: 61.5, z: 1000.5 },
-    { x: 1044.5, y: 61.5, z: 1000.5 }
+    { x: 954.5, y: 57.5, z: 1000.5 },
+    { x: 1046.5, y: 57.5, z: 1000.5 }
 ]
 export const SHOPS: Vector3[] = [
     { x: 958.5, y: 57, z: 1005.5 },

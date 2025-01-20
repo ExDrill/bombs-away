@@ -45,6 +45,7 @@ export default class PlayerManager {
             z: spawnpoint.z,
             dimension: DIMENSION
         })
+        player.addEffect('saturation', 99999, { amplifier: 9, showParticles: false })
 
         this.equipArmor(player)
     }
@@ -53,6 +54,7 @@ export default class PlayerManager {
         const spawnpoint = TEAM_SPAWNPOINTS[player.getProperty('bombs_away:team') as number]
         player.teleport(spawnpoint)
         player.setGameMode(gameMode)
+        player.addEffect('saturation', 99999, { amplifier: 9, showParticles: false })
 
         PlayerUtils.setAlive(player, true)
 

@@ -3,7 +3,51 @@
     "minecraft:entity": {
         "description": {
             "identifier": "bombs_away:emerald_spawner",
-            "is_summonable": true
+            "is_summonable": true,
+            "properties": {
+                "bombs_away:level": {
+                    "type": "int",
+                    "default": 0,
+                    "range": [0, 2]
+                },
+                "bombs_away:team": {
+                    "type": "int",
+                    "default": 0,
+                    "range": [0, 1]
+                }
+            }
+        },
+        "component_groups": {
+            "bombs_away:level_0": {
+                "minecraft:timer": {
+                    "looping": true,
+                    "time": 5,
+                    "time_down_event": {
+                        "event": "bombs_away:spawn_emerald",
+                        "target": "self"
+                    }
+                }
+            },
+            "bombs_away:level_1": {
+                "minecraft:timer": {
+                    "looping": true,
+                    "time": 3,
+                    "time_down_event": {
+                        "event": "bombs_away:spawn_emerald",
+                        "target": "self"
+                    }
+                }
+            },
+            "bombs_away:level_2": {
+                "minecraft:timer": {
+                    "looping": true,
+                    "time": 1,
+                    "time_down_event": {
+                        "event": "bombs_away:spawn_emerald",
+                        "target": "self"
+                    }
+                }
+            }
         },
         "components": {
             "minecraft:health": {
@@ -30,17 +74,38 @@
                         "deals_damage": "no"
                     }
                 ]
-            },
-            "minecraft:timer": {
-                "looping": true,
-                "time": 5,
-                "time_down_event": {
-                    "event": "bombs_away:spawn_emerald",
-                    "target": "self"
-                }
             }
         },
         "events": {
+            "minecraft:entity_spawned": {
+                "trigger": "bombs_away:switch_to_level_0"
+            },
+            "bombs_away:switch_to_level_0": {
+                "add": {
+                    "component_groups": ["bombs_away:level_0"]
+                },
+                "remove": {
+                    "component_groups": ["bombs_away:level_1", "bombs_away:level_2"]
+                }
+            },
+            "bombs_away:switch_to_level_1": {
+                "add": {
+                    "component_groups": ["bombs_away:level_1"]
+                },
+                "remove": {
+                    "component_groups": ["bombs_away:level_0", "bombs_away:level_2"]
+                }
+            },
+            "bombs_away:switch_to_level_2": {
+                "add": {
+                    "component_groups": ["bombs_away:level_2"]
+                },
+                "remove": {
+                    "component_groups": ["bombs_away:level_0", "bombs_away:level_1"]
+                }
+            },
+
+            // Scripted event
             "bombs_away:spawn_emerald": {}
         }
     }
